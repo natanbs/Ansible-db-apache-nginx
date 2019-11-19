@@ -1,10 +1,12 @@
 #!/usr/bin/python3
+""" This script creates a customized amount of roles and containers """
+
 import os
 import sys
-import ast
 
 def usage():
-    print("""  
+    """ Help """
+    print(""" 
       This script creates a customized amount of roles and containers.
 
       Usage:   ./containerize.py role:containers
@@ -16,6 +18,7 @@ if len(sys.argv) < 2:
     exit(0)
 
 def del_dockers():
+    """ Delete exisiting env """
     print()
     print('Deleting all existsing containers')
     # Stop all existsing containers
@@ -39,7 +42,7 @@ for Role in Containers:
     category = tmp.rsplit(':', 1)[0]
     cat = '[' + str(category) + ']'
     hosts = tmp.rsplit(':', 1)[1].split(',')
-    with open(inventory,'a') as f:
+    with open(inventory, 'a') as f:
         f.write('\n' + cat + '\n')
         for h in hosts:
             print(cat, role, h)
@@ -56,7 +59,7 @@ os.system('cat ' + inventory)
 # Create keys on Containers
 print()
 home = os.getenv("HOME")
-with open(home + '/.ssh/ssh_config','w+') as f:
+with open(home + '/.ssh/ssh_config', 'w+') as f:
     f.write('StrictHostKeyChecking no\nUserKnownHostsFile /dev/null')
 f.close
 os.system("""for i in $(cat hosts | grep -v '\[' | cut -d= -f2); do cat ~/.ssh/id_rsa.pub | sshpass -p 1234 ssh root@${i} "cat >> .ssh/authorized_keys && echo Key copied to ${i}"; done""")

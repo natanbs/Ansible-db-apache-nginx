@@ -1,0 +1,11 @@
+---
+# Configuring httpd.conf and sending html file
+- name: apache2.conf file
+  copy: src=apache2.conf dest=/etc/apache2/apache2.conf
+  notify:
+    - restart apache2 service
+
+- name: send index.html
+  copy: src=index.html dest=/var/www//html/index.html 
+  notify:
+    - restart apache2 service

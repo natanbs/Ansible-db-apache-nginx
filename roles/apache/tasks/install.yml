@@ -1,0 +1,10 @@
+---
+# Installing httpd package
+- name: Install python
+  apt:
+    name: python
+    state: latest 
+- name: Install apache2
+  apt:
+    name: apache2
+    state: latest 

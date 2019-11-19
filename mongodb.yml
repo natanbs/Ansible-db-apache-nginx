@@ -1,0 +1,8 @@
+---
+- hosts: db
+  gather_facts: false
+  vars_files:
+    - roles/mongodb/vars.yml
+  user: root
+  roles:
+    - mongodb

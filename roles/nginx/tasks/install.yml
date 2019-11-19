@@ -1,0 +1,11 @@
+---
+# Installing nginx package
+- name: Install python
+  apt:
+    name: python
+    state: latest
+
+- name: Install nginx
+  apt:
+    name: nginx
+    state: latest 

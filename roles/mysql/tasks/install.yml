@@ -1,0 +1,23 @@
+---
+# Installing mysql server
+- name: Install python
+  apt:
+    name: python
+    state: latest
+
+- name: Install mysql
+  apt:
+    name: mysql-server
+    state: present
+
+- name: Start service mysql
+  command: "service mysql start"
+  #  service:
+  #  name: mysql
+  #  state: started
+  #  enabled: yes
+    
+- name: Adds Python MySQL support
+  apt: 
+    name: python-mysqldb 
+    state: present

@@ -1,0 +1,6 @@
+---
+# Configuring httpd.conf and sending html file
+- name: send index.html
+  copy: src=index.html dest=/var/www/html/index.html mode='0755'
+  notify:
+    - restart nginx service

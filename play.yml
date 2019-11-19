@@ -1,0 +1,25 @@
+---
+- hosts: db
+  gather_facts: false
+  vars_files:
+    - roles/mysql/vars/main.yml
+  user: root
+  roles:
+    - mysql
+
+- hosts: be
+  gather_facts: false
+  vars_files:
+    - roles/apache/vars/main.yml
+  user: root
+  roles:
+    - apache
+
+- hosts: fe
+  gather_facts: false
+  vars_files:
+    - roles/nginx/vars/main.yml
+  user: root
+  roles:
+    - nginx
+

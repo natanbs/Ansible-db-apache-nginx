@@ -1,0 +1,23 @@
+---
+# Installing mariadb server
+- name: Install python
+  apt:
+    name: python
+    state: latest
+
+- name: Install mariadb
+  apt:
+    name: mariadb-server
+    state: present
+
+- name: Start service mariadb
+  command: "service mysql start"
+  #  service:
+  #  name: mysql
+  #  state: started
+  #  enabled: yes
+    
+- name: Adds Python MySQL support
+  apt: 
+    name: python-mysqldb 
+    state: present

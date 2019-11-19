@@ -1,0 +1,13 @@
+---
+# Start mariadb service
+- name: restart mysql service
+  command: "service mysql restart"
+  #service: 
+  #  name=mysql
+  #  enabled=yes
+  #  state=restarted
+  notify:
+    - restart mysql service
+  tags:
+    - restart
+

@@ -1,0 +1,38 @@
+---
+- hosts: db, be, fe
+  user: root
+  gather_facts: false
+  vars:
+    motd_welcome: "\nWelcome home\n\n"
+  tasks:
+    - name: Add motd
+      copy:
+        dest: /etc/motd
+        content: "{{ motd_welcome }}"
+    - name: Alive?
+      ping:
+      tags: Check-ping
+
+    - name: Load
+      shell: uptime
+      tags: Check-load
+
+- hosts: db
+  gather_facts: false
+  vars_files:
+    - roles/mysql/vars.yml
+  user: root
+  roles:
+    - mysql
+
+- hosts: be
+  gather_facts: false
+  user: root
+  roles:
+    - apache
+
+- hosts: fe
+  gather_facts: false
+  user: root
+  roles:
+    - nginx

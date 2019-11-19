@@ -1,0 +1,9 @@
+---
+# Configuring mysql and sending mysqld.cnf file
+#- name: Secure mysql
+#  shell: mysql_secure_installation 
+
+- name: mysqld.cnf file
+  copy: src=mysqld.cnf dest=/etc/mysql/mysql.conf.d/mysqld.cnf
+  notify:
+    - restart mysql service

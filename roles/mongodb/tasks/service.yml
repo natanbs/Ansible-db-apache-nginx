@@ -1,0 +1,10 @@
+---
+# Start mongodb service
+- name: restart mongodb service
+  service: 
+    name=mongodb
+    enabled=yes
+    state=restarted
+  notify:
+    - restart mongodb service
+

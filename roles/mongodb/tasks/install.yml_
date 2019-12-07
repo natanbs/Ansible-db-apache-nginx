@@ -1,0 +1,43 @@
+---
+# Installing mongodb server
+- name: Install python
+  apt:
+    name: python
+    state: latest
+
+- name: add MongoDB GPG key
+  apt_key:
+    keyserver: "keyserver.ubuntu.com"
+    id: "9DA31620334BD75D9DCB49F368818C72E52529D4"
+- apt_repository:
+    repo: "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.0 multiverse"
+    state: present
+    filename: "mongodb-org-4.0.list"
+- name: Update repositories cache and install "mongodb" package
+    apt: name=mongodb-org state=present update_cache=true
+
+#- name: Install mongodb
+#  shell: "{{ item }}"
+#  with_items:
+#    - "apt install -y gnupg"
+#    - "wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | apt-key add -"
+#    - "echo 'deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse' | tee /etc/apt/sources.list.d/mongodb-org-4.2.list"
+#    - "apt update && apt upgrade -y"
+#    - "ln -s /usr/share/zoneinfo/Asia/Jerusalem  /etc/timezone"
+#    - "apt install tzdata -y"
+#    - "mkdir -m 777 -p /data/db"
+#    - "apt install -y mongodb-org"
+
+#- name: Start service mongodb
+#  shell: "/usr/bin/mongod &"
+
+- name: remove a file
+    file:
+      path: /etc/mongod.conf
+      state: absent
+- name: mongo conf copy
+  template:
+    src: mongodd.j2
+    dest: /etc/mongod.conf
+  notify:
+  - start

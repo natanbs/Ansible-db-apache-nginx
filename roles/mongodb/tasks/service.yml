@@ -1,10 +1,12 @@
 ---
-# Start mongodb service
-- name: restart mongodb service
-  service: 
-    name=mongodb
-    enabled=yes
-    state=restarted
-  notify:
-    - restart mongodb service
+- name: start mongod service
+  shell: "nohup /usr/bin/mongod -f /etc/mongodb.conf & > /dev/null"
 
+- name: Sleep
+  shell: "sleep 10"
+
+- name: check mongod process Inst
+  shell: "pgrep mongod > /dev/null && echo ok || echo ko"
+
+- name: Test mongo
+  shell: "echo show dbs | mongo"

@@ -1,3 +1,16 @@
 ---
 
 # Configuring mongodb
+
+- name: remove a file
+  file:
+    path: /etc/mongod.conf
+    state: absent
+
+- name: create folders
+  shell: mkdir /var/run/mongodb && mkdir /opt/mongodb
+
+- name: mongod.conf file
+  copy: src=mongod.conf dest=/etc/mongod.conf
+  notify:
+    - restart mongodb

@@ -30,6 +30,11 @@ def del_dockers():
         os.system("docker ps -a | grep -v CONTAINER | cut -d' ' -f1 | xargs docker rm > /dev/null; for i in `docker images | grep -Ev 'img|sickp' | awk '{print $3}' | grep -v IMA > /dev/null`; do docker rmi $i; done")
 del_dockers()
 
+# Check if build exists
+eg = os.popen('docker images |grep eg_sshd && echo Y || echo N').read().strip()
+if eg == 'N':
+    os.system('docker build -t eg_sshd .')
+
 inventory = 'hosts'
 Containers = sys.argv[1:]
 print()
@@ -59,7 +64,7 @@ os.system('cat ' + inventory)
 # Create keys on Containers
 print()
 home = os.getenv("HOME")
-with open(home + '/.ssh/ssh_config', 'w+') as f:
+with open(home + '/.ssh/config', 'w+') as f:
     f.write('StrictHostKeyChecking no\nUserKnownHostsFile /dev/null')
 f.close
 os.system("""for i in $(cat hosts | grep -v '\[' | cut -d= -f2); do cat ~/.ssh/id_rsa.pub | sshpass -p 1234 ssh root@${i} "cat >> .ssh/authorized_keys && echo Key copied to ${i}"; done""")

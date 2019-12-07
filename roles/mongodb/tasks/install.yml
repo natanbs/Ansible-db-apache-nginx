@@ -5,15 +5,19 @@
     name: python
     state: latest
 
-- name: Install mongodb
-  command: "apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4"
-  command: "echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list"
-  command: "apt-get update"
-  command: apt-get install -y mongodb-org"
+- name: add MongoDB GPG key
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 9DA31620334BD75D9DCB49F368818C72E52529D4
 
-- name: Start service mongodb
-  command: "service mongod start"
-  #  service:
-  #  name: mongod
-  #  state: started
-  #  enabled: yes
+- apt_repository:
+    repo: deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.0 multiverse
+    state: present
+    filename: mongodb-org-4.0.list
+
+- name: Create /data/db folder
+  shell: "mkdir -m 777 -p /data/db"
+
+- name: Update repositories cache and install "mongodb" package
+  apt: name=mongodb-org state=present update_cache=true
+

@@ -1,2 +1,4 @@
 ---
 # handlers file for mongodb
+- name: restart mongodb
+  shell: "pkill mongod && sleep 5 && mongod & > /dev/null"
